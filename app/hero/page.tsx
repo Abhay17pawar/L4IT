@@ -55,11 +55,7 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange
       setTextIndex((prev) => (prev + 1) % textVariants.length)
     }, 2000)
     return () => clearInterval(interval)
-  }, [])
-
-  const handleThemeChange = (newTheme: "light" | "dark") => {
-    onThemeChange(newTheme)
-  }
+}, [textVariants.length]);
 
   return (
     <motion.section
