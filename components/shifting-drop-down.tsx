@@ -3,6 +3,7 @@
 import { type ReactNode, useEffect, useState } from "react"
 import { FiArrowRight, FiBarChart2, FiChevronDown, FiHome, FiPieChart } from "react-icons/fi"
 import { AnimatePresence, motion } from "framer-motion"
+import Image from "next/image"
 
 export const ShiftingDropDown = () => {
   return (
@@ -238,10 +239,12 @@ const About = () => {
     <div>
       <div className="grid grid-cols-2 gap-2">
         <a href="#">
-          <img
+       <Image
             className="mb-2 h-14 w-full rounded object-cover"
-            src="/placeholder.svg?height=56&width=180"
+            src="/placeholder.svg"
             alt="Placeholder image"
+            width={180}
+            height={56}
           />
           <h4 className="mb-0.5 text-sm font-medium">Lorem ipsum dolor</h4>
           <p className="text-xs text-neutral-400">
@@ -249,11 +252,13 @@ const About = () => {
           </p>
         </a>
         <a href="#">
-          <img
-            className="mb-2 h-14 w-full rounded object-cover"
-            src="/placeholder.svg?height=56&width=180"
-            alt="Placeholder image"
-          />
+            <Image
+              className="mb-2 h-14 w-full rounded object-cover"
+              src="/placeholder.svg"
+              alt="Placeholder image"
+              width={180}
+              height={56}
+            />
           <h4 className="mb-0.5 text-sm font-medium">Lorem ipsum dolor</h4>
           <p className="text-xs text-neutral-400">
             Lorem ipsum dolor sit amet consectetur adipisicing elit. Amet illo quidem eos.

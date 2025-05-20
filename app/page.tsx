@@ -393,7 +393,7 @@ export default function Home() {
                 Trusted by industry leaders worldwide
               </h2>
               <p className={`mt-4 text-lg ${theme === "dark" ? "text-zinc-400" : "text-zinc-800"} max-w-2xl mx-auto`}>
-                Our solutions power the infrastructure of the world's most innovative companies
+                Our solutions power the infrastructure of the world&rsquo;s most innovative companies
               </p>
             </div>
 
