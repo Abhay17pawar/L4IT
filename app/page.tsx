@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect, useRef } from "react"
-import { Menu, X, Shield, Server, Clock, Brain, Cpu, Zap } from "lucide-react"
+import { Menu, X, Shield, Server, Clock, Brain, Cpu, Zap } from 'lucide-react'
 import Image from "next/image"
 import { AnimatePresence, motion } from "framer-motion"
 import ShuffleHero from "./hero/page"

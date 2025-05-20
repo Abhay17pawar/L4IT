@@ -2,33 +2,255 @@
 
 import type React from "react"
 
-import { motion, AnimatePresence, useScroll, useTransform, useMotionTemplate, useSpring } from "framer-motion"
-import { useEffect, useRef, useState } from "react"
-import { ArrowRight, ChevronRight, Shield, Server, Brain, HeartIcon as HeartPlus } from "lucide-react"
+import { useState, useEffect, useRef } from "react"
+import { motion, AnimatePresence, useMotionTemplate } from "framer-motion"
+import { ArrowRight, ChevronRight, Shield, Server, Brain, HeartIcon } from "lucide-react"
 
 interface ShuffleHeroProps {
   theme: "light" | "dark"
   onThemeChange?: (theme: "light" | "dark") => void
 }
 
-const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange }) => {
+// Image data for the shuffle grid
+const squareData = [
+  {
+    id: 1,
+    src: "https://images.pexels.com/photos/7659569/pexels-photo-7659569.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 2,
+    src: "https://images.pexels.com/photos/7088526/pexels-photo-7088526.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 3,
+    src: "https://images.pexels.com/photos/7988218/pexels-photo-7988218.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 4,
+    src: "https://images.pexels.com/photos/6804068/pexels-photo-6804068.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 5,
+    src: "https://images.pexels.com/photos/12899191/pexels-photo-12899191.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 6,
+    src: "https://images.pexels.com/photos/6804084/pexels-photo-6804084.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 7,
+    src: "https://images.pexels.com/photos/6803532/pexels-photo-6803532.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 8,
+    src: "https://images.pexels.com/photos/6755049/pexels-photo-6755049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 9,
+    src: "https://images.pexels.com/photos/9241774/pexels-photo-9241774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 10,
+    src: "https://images.pexels.com/photos/7988748/pexels-photo-7988748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 11,
+    src: "https://images.pexels.com/photos/7988759/pexels-photo-7988759.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 12,
+    src: "https://images.pexels.com/photos/6129507/pexels-photo-6129507.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 13,
+    src: "https://images.pexels.com/photos/16323581/pexels-photo-16323581/free-photo-of-a-man-sitting-at-a-desk-with-two-monitors.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 14,
+    src: "https://images.pexels.com/photos/5439379/pexels-photo-5439379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 15,
+    src: "https://images.pexels.com/photos/5716032/pexels-photo-5716032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+  {
+    id: 16,
+    src: "https://images.pexels.com/photos/6749778/pexels-photo-6749778.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+  },
+]
+
+// Shuffle array function
+const shuffle = (array: typeof squareData) => {
+  let currentIndex = array.length,
+    randomIndex
+
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex)
+    currentIndex--
+    ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
+  }
+
+  return array
+}
+
+// EnhancedShuffleGrid component
+const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null)
+  const [squares, setSquares] = useState<React.ReactNode[]>([])
+  const [isHovering, setIsHovering] = useState(false)
+
+  // Generate squares with animations
+  const generateSquares = () => {
+    return shuffle([...squareData])
+      .slice(0, 9)
+      .map((sq) => (
+        <motion.div
+          key={sq.id}
+          layout
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{
+            opacity: 1,
+            scale: 1,
+            transition: {
+              duration: 0.8,
+              type: "spring",
+              bounce: 0.3,
+            },
+          }}
+          exit={{
+            opacity: 0,
+            scale: 0.8,
+            transition: { duration: 0.6 },
+          }}
+          whileHover={{
+            scale: 1.05,
+            zIndex: 20,
+            boxShadow: isDark ? "0 10px 30px rgba(0,0,0,0.5)" : "0 10px 30px rgba(0,0,0,0.2)",
+          }}
+          className="relative w-full h-full overflow-hidden rounded-lg"
+        >
+          {/* Image with filter effect */}
+          <motion.div
+            className="absolute inset-0 h-full w-full"
+            style={{
+              backgroundImage: `url(${sq.src})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+            }}
+            whileHover={{
+              scale: 1.1,
+            }}
+            transition={{ duration: 0.4 }}
+          />
+
+          {/* Gradient overlay */}
+          <motion.div
+            initial={{ opacity: 0 }}
+            whileHover={{ opacity: 1 }}
+            className={`absolute inset-0 ${
+              isDark
+                ? "bg-gradient-to-t from-black/80 via-black/40 to-transparent"
+                : "bg-gradient-to-t from-black/70 via-black/30 to-transparent"
+            }`}
+          >
+            <div className="absolute bottom-0 left-0 w-full p-4">
+              <motion.div
+                initial={{ y: 20, opacity: 0 }}
+                whileHover={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.3 }}
+                className="text-white"
+              >
+                <div className="text-sm font-medium">IT Solution {sq.id}</div>
+                <div className="mt-1 text-xs text-zinc-300">Click to explore</div>
+              </motion.div>
+            </div>
+          </motion.div>
+
+          {/* Decorative corner accent */}
+          <motion.div
+            className="absolute right-0 top-0 h-12 w-12 origin-top-right"
+            initial={{ opacity: 0, scale: 0 }}
+            whileHover={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+          >
+            <div className="absolute right-0 top-0 h-px w-8 bg-gradient-to-l from-rose-500 to-transparent"></div>
+            <div className="absolute right-0 top-0 h-8 w-px bg-gradient-to-b from-rose-500 to-transparent"></div>
+          </motion.div>
+        </motion.div>
+      ))
+  }
+
+  // Initialize and handle shuffling
+  useEffect(() => {
+    setSquares(generateSquares())
+    shuffleSquares()
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current)
+      }
+    }
+  }, [isDark])
+
+  const shuffleSquares = () => {
+    if (isHovering) {
+      timeoutRef.current = setTimeout(shuffleSquares, 3000)
+      return
+    }
+
+    // Create a fade out/in effect
+    const fadeOutTimeout = setTimeout(() => {
+      setSquares([])
+
+      const fadeInTimeout = setTimeout(() => {
+        setSquares(generateSquares())
+        timeoutRef.current = setTimeout(shuffleSquares, 3000)
+      }, 300)
+
+      return () => clearTimeout(fadeInTimeout)
+    }, 3000)
+
+    return () => clearTimeout(fadeOutTimeout)
+  }
+
+  return (
+    <motion.div
+      className="relative h-[600px] overflow-hidden rounded-2xl"
+      style={{
+        transformStyle: "preserve-3d",
+      }}
+      whileHover={{
+        rotateY: 5,
+        rotateX: -5,
+      }}
+      onHoverStart={() => setIsHovering(true)}
+      onHoverEnd={() => setIsHovering(false)}
+    >
+      {/* Glass effect overlay */}
+      <div className="absolute inset-0 z-10 rounded-2xl"></div>
+
+      {/* Grid with perspective effect */}
+      <div
+        className="grid h-full grid-cols-3 grid-rows-3 gap-3 p-3"
+        style={{
+          transform: "translateZ(0px)",
+        }}
+      >
+        <AnimatePresence>{squares}</AnimatePresence>
+      </div>
+    </motion.div>
+  )
+}
+
+export default function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
-  const containerRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"],
-  })
-
-  const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0])
-  const scale = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.8, 1, 1, 0.8])
-  const y = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [100, 0, 0, -100])
-
-  const springY = useSpring(y, { stiffness: 100, damping: 30 })
-  const springScale = useSpring(scale, { stiffness: 100, damping: 30 })
-  const springOpacity = useSpring(opacity, { stiffness: 100, damping: 30 })
-
+  const [isHovering, setIsHovering] = useState(false)
+  const [textIndex, setTextIndex] = useState(0)
+  const textVariants = ["Secure", "Manage", "Support", "Optimize"]
   const isDark = theme === "dark"
+  const containerRef = useRef<HTMLDivElement>(null)
 
+  // Track mouse position for spotlight effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return
@@ -43,13 +265,7 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  const mouseX = useMotionTemplate`${mousePosition.x}px`
-  const mouseY = useMotionTemplate`${mousePosition.y}px`
-
-  const [isHovering, setIsHovering] = useState(false)
-  const [textIndex, setTextIndex] = useState(0)
-  const textVariants = ["Secure", "Manage", "Support", "Optimize"]
-
+  // Animate text cycling
   useEffect(() => {
     const interval = setInterval(() => {
       setTextIndex((prev) => (prev + 1) % textVariants.length)
@@ -57,19 +273,17 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange
     return () => clearInterval(interval)
   }, [textVariants.length])
 
+  const mouseX = useMotionTemplate`${mousePosition.x}px`
+  const mouseY = useMotionTemplate`${mousePosition.y}px`
+
   return (
-    <motion.section
+    <section
       ref={containerRef}
       className={`relative min-h-screen w-full overflow-hidden ${
         isDark
           ? "bg-gradient-to-b from-zinc-900 via-zinc-900 to-black"
           : "bg-gradient-to-b from-zinc-100 via-zinc-100 to-white"
       } transition-colors duration-500`}
-      style={{
-        opacity: springOpacity,
-        scale: springScale,
-        y: springY,
-      }}
     >
       {/* Spotlight effect that follows cursor */}
       <div
@@ -266,7 +480,7 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange
               {[
                 { icon: Shield, label: "Security" },
                 { icon: Server, label: "Infrastructure" },
-                { icon: HeartPlus, label: "HealthCare" },
+                { icon: HeartIcon, label: "HealthCare" },
               ].map((feature, index) => (
                 <div key={index} className="flex flex-col items-center text-center">
                   <motion.div
@@ -295,7 +509,7 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange
           </div>
 
           {/* Enhanced grid with 3D effect */}
-          <div className="relative">
+          <div className="relative hidden lg:block">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
               animate={{ opacity: 1, scale: 1, rotateY: 0 }}
@@ -335,234 +549,6 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange
           </div>
         </div>
       </div>
-    </motion.section>
+    </section>
   )
 }
-
-const shuffle = (array: (typeof squareData)[0][]) => {
-  let currentIndex = array.length,
-    randomIndex
-
-  while (currentIndex != 0) {
-    randomIndex = Math.floor(Math.random() * currentIndex)
-    currentIndex--
-    ;[array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]]
-  }
-
-  return array
-}
-
-const squareData = [
-  {
-    id: 1,
-    src: "https://images.pexels.com/photos/7659569/pexels-photo-7659569.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 2,
-    src: "https://images.pexels.com/photos/7088526/pexels-photo-7088526.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 3,
-    src: "https://images.pexels.com/photos/7988218/pexels-photo-7988218.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 4,
-    src: "https://images.pexels.com/photos/6804068/pexels-photo-6804068.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 5,
-    src: "https://images.pexels.com/photos/12899191/pexels-photo-12899191.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 6,
-    src: "https://images.pexels.com/photos/6804084/pexels-photo-6804084.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 7,
-    src: "https://images.pexels.com/photos/6803532/pexels-photo-6803532.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 8,
-    src: "https://images.pexels.com/photos/6755049/pexels-photo-6755049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 9,
-    src: "https://images.pexels.com/photos/9241774/pexels-photo-9241774.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 10,
-    src: "https://images.pexels.com/photos/7988748/pexels-photo-7988748.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 11,
-    src: "https://images.pexels.com/photos/7988759/pexels-photo-7988759.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 12,
-    src: "https://images.pexels.com/photos/6129507/pexels-photo-6129507.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 13,
-    src: "https://images.pexels.com/photos/16323581/pexels-photo-16323581/free-photo-of-a-man-sitting-at-a-desk-with-two-monitors.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 14,
-    src: "https://images.pexels.com/photos/5439379/pexels-photo-5439379.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 15,
-    src: "https://images.pexels.com/photos/5716032/pexels-photo-5716032.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-  {
-    id: 16,
-    src: "https://images.pexels.com/photos/6749778/pexels-photo-6749778.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
-  },
-]
-
-const generateSquares = (isDark: boolean) => {
-  return shuffle(squareData)
-    .slice(0, 9)
-    .map((sq) => (
-      <motion.div
-        key={sq.id}
-        layout
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{
-          opacity: 1,
-          scale: 1,
-          transition: {
-            duration: 0.8,
-            type: "spring",
-            bounce: 0.3,
-          },
-        }}
-        exit={{
-          opacity: 0,
-          scale: 0.8,
-          transition: { duration: 0.6 },
-        }}
-        whileHover={{
-          scale: 1.05,
-          zIndex: 20,
-          boxShadow: isDark ? "0 10px 30px rgba(0,0,0,0.5)" : "0 10px 30px rgba(0,0,0,0.2)",
-        }}
-        className="relative w-full h-full overflow-hidden rounded-lg"
-      >
-        {/* Image with filter effect */}
-        <motion.div
-          className="absolute inset-0 h-full w-full"
-          style={{
-            backgroundImage: `url(${sq.src})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-          whileHover={{
-            scale: 1.1,
-          }}
-          transition={{ duration: 0.4 }}
-        />
-
-        {/* Gradient overlay */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileHover={{ opacity: 1 }}
-          className={`absolute inset-0 ${
-            isDark
-              ? "bg-gradient-to-t from-black/80 via-black/40 to-transparent"
-              : "bg-gradient-to-t from-black/70 via-black/30 to-transparent"
-          }`}
-        >
-          <div className="absolute bottom-0 left-0 w-full p-4">
-            <motion.div
-              initial={{ y: 20, opacity: 0 }}
-              whileHover={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.3 }}
-              className="text-white"
-            >
-              <div className="text-sm font-medium">IT Solution {sq.id}</div>
-              <div className="mt-1 text-xs text-zinc-300">Click to explore</div>
-            </motion.div>
-          </div>
-        </motion.div>
-
-        {/* Decorative corner accent */}
-        <motion.div
-          className="absolute right-0 top-0 h-12 w-12 origin-top-right"
-          initial={{ opacity: 0, scale: 0 }}
-          whileHover={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.3 }}
-        >
-          <div className="absolute right-0 top-0 h-px w-8 bg-gradient-to-l from-rose-500 to-transparent"></div>
-          <div className="absolute right-0 top-0 h-8 w-px bg-gradient-to-b from-rose-500 to-transparent"></div>
-        </motion.div>
-      </motion.div>
-    ))
-}
-
-const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null) // Use a more specific type
-  const [squares, setSquares] = useState<React.ReactNode[]>([])
-  const [isHovering, setIsHovering] = useState(false)
-
-  useEffect(() => {
-    setSquares(generateSquares(isDark))
-    shuffleSquares()
-
-    return () => {
-      if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current)
-      }
-    }
-  }, [isDark])
-
-  const shuffleSquares = () => {
-    if (isHovering) {
-      timeoutRef.current = setTimeout(shuffleSquares, 3000)
-      return
-    }
-
-    // Create a fade out/in effect
-    const fadeOutTimeout = setTimeout(() => {
-      setSquares([])
-
-      const fadeInTimeout = setTimeout(() => {
-        setSquares(generateSquares(isDark))
-        timeoutRef.current = setTimeout(shuffleSquares, 3000)
-      }, 300)
-
-      return () => clearTimeout(fadeInTimeout)
-    }, 3000)
-
-    return () => clearTimeout(fadeOutTimeout)
-  }
-
-  return (
-    <motion.div
-      className="relative h-[600px] overflow-hidden rounded-2xl"
-      style={{
-        transformStyle: "preserve-3d",
-      }}
-      whileHover={{
-        rotateY: 5,
-        rotateX: -5,
-      }}
-      onHoverStart={() => setIsHovering(true)}
-      onHoverEnd={() => setIsHovering(false)}
-    >
-      {/* Glass effect overlay - removed background */}
-      <div className="absolute inset-0 z-10 rounded-2xl"></div>
-
-      {/* Grid with perspective effect */}
-      <div
-        className="grid h-full grid-cols-3 grid-rows-3 gap-3 p-3"
-        style={{
-          transform: "translateZ(0px)",
-        }}
-      >
-        <AnimatePresence>{squares}</AnimatePresence>
-      </div>
-    </motion.div>
-  )
-}
-
-export default ShuffleHero
