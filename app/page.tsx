@@ -64,7 +64,6 @@ export default function Home() {
 
   // Function to handle theme changes
   const handleThemeChange = (newTheme: "light" | "dark") => {
-    console.log("Theme change requested:", newTheme)
     setTheme(newTheme)
   }
 
