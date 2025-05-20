@@ -155,7 +155,7 @@ const Nub = ({ selected }: { selected: number | null }) => {
   )
 }
 
-const Products = () => {
+const Services = () => {
   return (
     <div>
       <div className="flex gap-4">
@@ -205,7 +205,7 @@ const Products = () => {
   )
 }
 
-const Pricing = () => {
+const Trusted = () => {
   return (
     <div className="grid grid-cols-3 gap-4 divide-x divide-neutral-700">
       <a
@@ -233,7 +233,7 @@ const Pricing = () => {
   )
 }
 
-const Blog = () => {
+const About = () => {
   return (
     <div>
       <div className="grid grid-cols-2 gap-2">
@@ -270,15 +270,15 @@ const Blog = () => {
 
 const TABS = [
   {
-    title: "Products",
-    Component: Products,
+    title: "IT Services",
+    Component: Services,
   },
   {
-    title: "Pricing",
-    Component: Pricing,
+    title: "Trusted by Leading Industries",
+    Component: Trusted,
   },
   {
-    title: "Blog",
-    Component: Blog,
+    title: "About Us",
+    Component: About,
   },
 ].map((n, idx) => ({ ...n, id: idx + 1 }))

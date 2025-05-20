@@ -1,48 +1,38 @@
 export const testimonials = [
   {
-    quote:
-      "This platform has transformed how we manage our cloud infrastructure. The reliability and performance have been outstanding.",
-    name: "Sarah Johnson",
-    title: "CTO",
     company: "Microsoft",
-    logo: "/logos/microsoft.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/4/44/Microsoft_logo.svg",
   },
   {
-    quote:
-      "We've seen a 40% increase in developer productivity since implementing this solution. The integration capabilities are unmatched.",
-    name: "David Chen",
-    title: "VP of Engineering",
     company: "Google",
-    logo: "/logos/google.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/2/2f/Google_2015_logo.svg",
   },
   {
-    quote:
-      "The scalability and security features have allowed us to confidently expand our services globally without compromising performance.",
-    name: "Emily Rodriguez",
-    title: "Head of Infrastructure",
     company: "Amazon",
-    logo: "/logos/amazon.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/a/a9/Amazon_logo.svg",
   },
   {
-    quote: "Our team was able to deploy in minutes instead of days. The developer experience is simply best-in-class.",
-    name: "Michael Kim",
-    title: "Director of Technology",
     company: "Salesforce",
-    logo: "/logos/salesforce.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/f/f9/Salesforce.com_logo.svg",
   },
   {
-    quote:
-      "The analytics and monitoring tools have given us unprecedented visibility into our application performance.",
-    name: "Jessica Taylor",
-    title: "Lead DevOps Engineer",
-    company: "Adobe",
-    logo : 'https://logos-world.net/wp-content/uploads/2020/06/Adobe-Logo.png'
-  },
-  {
-    quote: "We've reduced our infrastructure costs by 35% while improving reliability. The ROI has been incredible.",
-    name: "Robert Patel",
-    title: "CIO",
     company: "IBM",
-    logo: "/logos/ibm.svg",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/51/IBM_logo.svg",
+  },
+  {
+    company: "Apple",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg",
+  },
+  {
+    company: "Meta",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/7/7b/Meta_Platforms_Inc._logo.svg",
+  },
+  {
+    company: "Oracle",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/5/50/Oracle_logo.svg",
+  },
+  {
+    company: "Intel",
+    logo: "https://upload.wikimedia.org/wikipedia/commons/7/7d/Intel_logo_%282006-2020%29.svg",
   },
 ]

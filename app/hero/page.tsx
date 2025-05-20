@@ -102,7 +102,7 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange
       ></div>
 
       {/* Grid pattern overlay */}
-      <div className="absolute inset-0 z-0 bg-[url('/grid-pattern.png')] bg-center opacity-20"></div>
+      <div className="absolute inset-0 z-0 bg-center opacity-20"></div>
 
       <div className="relative z-10 flex min-h-[calc(100vh-80px)] w-full items-center justify-center px-8 py-24 pt-28">
         <div className="grid max-w-7xl gap-16 lg:grid-cols-2">
