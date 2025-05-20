@@ -500,16 +500,20 @@ const generateSquares = (isDark: boolean) => {
 }
 
 const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
-  const timeoutRef = useRef<any>(null)
-  const [squares, setSquares] = useState<React.ReactNode[]>([])
-  const [isHovering, setIsHovering] = useState(false)
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Use a more specific type
+  const [squares, setSquares] = useState<React.ReactNode[]>([]);
+  const [isHovering, setIsHovering] = useState(false);
 
   useEffect(() => {
-    setSquares(generateSquares(isDark))
-    shuffleSquares()
+    setSquares(generateSquares(isDark));
+    shuffleSquares();
 
-    return () => clearTimeout(timeoutRef.current)
-  }, [isDark])
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+  }, [isDark]);
 
   const shuffleSquares = () => {
     if (isHovering) {
