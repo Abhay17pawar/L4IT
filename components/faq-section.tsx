@@ -254,7 +254,7 @@ export function FAQSection({ theme }: FAQSectionProps) {
           className="mt-12 text-center"
         >
           <p className={`mb-6 text-lg ${isDark ? "text-zinc-300" : "text-zinc-700"}`}>
-            Still have questions? We&rsquo;re here to help.
+            Still have questions? We are here to help.
           </p>
           <motion.button
             whileHover={{ scale: 1.05 }}

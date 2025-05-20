@@ -11,7 +11,7 @@ interface ShuffleHeroProps {
   onThemeChange: (theme: "light" | "dark") => void
 }
 
-const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange }) => {
+const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark" }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
