@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from "react"
 import { motion, AnimatePresence, useMotionTemplate } from "framer-motion"
 import { ArrowRight, ChevronRight, Shield, Server, Brain, HeartIcon } from 'lucide-react'
 
-interface ShuffleHeroProps {
+export interface ShuffleHeroProps {
   theme: "light" | "dark"
   onThemeChange?: (theme: "light" | "dark") => void
 }
@@ -242,7 +242,7 @@ const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
   )
 }
 
-function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
+export function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const [isHovering, setIsHovering] = useState(false)
   const [textIndex, setTextIndex] = useState(0)
@@ -551,17 +551,4 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
       </div>
     </section>
   )
-}
-
-import { useState as useTheState } from "react"
-import { ShuffleHero as TheShuffleHero } from "@/components/shuffle-hero"
-
-export default function HeroPage() {
-  const [theme, setTheme] = useTheState<"light" | "dark">("dark")
-  
-  const handleThemeChange = (newTheme: "light" | "dark") => {
-    setTheme(newTheme)
-  }
-  
-  return <TheShuffleHero theme={theme} onThemeChange={handleThemeChange} />
 }
