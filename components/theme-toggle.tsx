@@ -12,7 +12,6 @@ interface ThemeToggleProps {
 export const ThemeToggle = ({ onThemeChange, initialTheme = "dark" }: ThemeToggleProps) => {
   const [theme, setTheme] = useState<"light" | "dark">(initialTheme)
 
-  // Update internal state when initialTheme prop changes
   useEffect(() => {
     setTheme(initialTheme)
   }, [initialTheme])

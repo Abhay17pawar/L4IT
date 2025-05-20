@@ -18,19 +18,14 @@ export default function Home() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Initialize theme from localStorage on component mount
   useEffect(() => {
-    // Check if we're in the browser environment
     if (typeof window !== "undefined") {
-      // Get saved theme from localStorage or use default
       const savedTheme = localStorage.getItem("theme") as "light" | "dark" | null
       const initialTheme = savedTheme || "light"
       setTheme(initialTheme)
-      console.log("Initial theme loaded from localStorage:", initialTheme)
     }
   }, [])
 
-  // Apply theme class to document and save to localStorage when theme changes
   useEffect(() => {
     if (typeof window !== "undefined") {
       const root = window.document.documentElement
@@ -43,13 +38,10 @@ export default function Home() {
         root.classList.add("light")
       }
 
-      // Save theme preference to localStorage
       localStorage.setItem("theme", theme)
-      console.log("Theme saved to localStorage:", theme)
     }
   }, [theme])
 
-  // Track mouse position for AI spotlight effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePosition({
@@ -62,14 +54,12 @@ export default function Home() {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  // Function to handle theme changes
   const handleThemeChange = (newTheme: "light" | "dark") => {
     setTheme(newTheme)
   }
 
   return (
     <>
-      {/* Fixed Navbar */}
       <div
         className={`fixed top-0 z-50 w-full transition-all duration-200 ${
           theme === "dark" ? "bg-zinc-900 border-b border-zinc-800" : "bg-zinc-100 border-b border-zinc-200"
@@ -86,14 +76,12 @@ export default function Home() {
             />
           </div>
 
-          {/* Desktop Navigation - hidden on mobile */}
           <div className="sticky hidden md:flex md:w-2/4 md:justify-center">
             <ShiftingDropDown />
           </div>
           <div className="flex w-3/4 md:w-1/4 justify-end items-center gap-4">
             <ThemeToggle onThemeChange={handleThemeChange} initialTheme={theme} />
 
-            {/* Hamburger Menu Button - visible only on mobile */}
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
               className={`flex md:hidden items-center justify-center h-10 w-10 rounded-full ${
@@ -109,7 +97,6 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <motion.div
@@ -222,10 +209,8 @@ export default function Home() {
         )}
       </AnimatePresence>
 
-      {/* Add padding to account for fixed navbar */}
       <div className="pt-16" ref={containerRef}>
         <ShuffleHero theme={theme} onThemeChange={handleThemeChange} />
-        {/* Bento Grid Section */}
         <div
           style={{
             backgroundColor: theme === "dark" ? undefined : "#ffffff",
@@ -233,7 +218,6 @@ export default function Home() {
           }}
           className="w-full py-24 relative overflow-hidden transition-colors duration-500"
         >
-          {/* Left gradient blob - consistent across themes */}
           <div
             className={`absolute -left-20 top-20 h-[500px] w-[500px] rounded-full blur-3xl ${
               theme === "dark"
@@ -242,7 +226,6 @@ export default function Home() {
             }`}
           ></div>
 
-          {/* Right gradient blob - consistent across themes */}
           <div
             className={`absolute -right-20 bottom-20 h-[400px] w-[400px] rounded-full blur-3xl ${
               theme === "dark"
@@ -251,7 +234,6 @@ export default function Home() {
             }`}
           ></div>
 
-          {/* Dotted pattern background without any + symbols */}
           <div
             className="absolute inset-0 z-0 opacity-20"
             style={{
@@ -262,7 +244,6 @@ export default function Home() {
             }}
           ></div>
 
-          {/* AI Neural Network Pattern Overlay */}
           <div className="absolute inset-0 z-0 opacity-10 overflow-hidden">
             <svg
               width="100%"
@@ -310,7 +291,6 @@ export default function Home() {
           className="w-full py-24 relative overflow-hidden transition-colors duration-500"
         >
           <>
-            {/* Left gradient blob - consistent across themes */}
             <div
               className={`absolute -left-20 top-20 h-[500px] w-[500px] rounded-full blur-3xl ${
                 theme === "dark"
@@ -319,7 +299,6 @@ export default function Home() {
               }`}
             ></div>
 
-            {/* Right gradient blob - consistent across themes */}
             <div
               className={`absolute -right-20 bottom-20 h-[400px] w-[400px] rounded-full blur-3xl ${
                 theme === "dark"
@@ -328,7 +307,6 @@ export default function Home() {
               }`}
             ></div>
 
-            {/* Dotted pattern background without any + symbols */}
             <div
               className="absolute inset-0 z-0 opacity-20"
               style={{
@@ -339,7 +317,6 @@ export default function Home() {
               }}
             ></div>
 
-            {/* AI Neural Network Pattern Overlay */}
             <div className="absolute inset-0 z-0 opacity-10 overflow-hidden">
               <svg
                 width="100%"
@@ -374,7 +351,6 @@ export default function Home() {
               </svg>
             </div>
 
-            {/* AI Spotlight effect */}
             <div
               className="pointer-events-none absolute inset-0 z-0 opacity-30"
               style={{
@@ -398,7 +374,6 @@ export default function Home() {
 
             <InfiniteMovingCards items={testimonials} theme={theme} />
 
-            {/* AI Features Section */}
             <div className="mt-32 text-center">
               <div className="flex justify-center mb-4">
                 <motion.div
@@ -446,7 +421,6 @@ export default function Home() {
                 </p>
               </motion.div>
 
-              {/* AI Feature Cards */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-12 mb-16">
                 {[
                   {
@@ -492,7 +466,6 @@ export default function Home() {
           </div>
         </div>
 
-        {/* FAQ Section */}
         <FAQSection theme={theme} />
       </div>
     </>

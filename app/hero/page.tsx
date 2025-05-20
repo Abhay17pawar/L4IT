@@ -11,7 +11,6 @@ interface ShuffleHeroProps {
   onThemeChange?: (theme: "light" | "dark") => void
 }
 
-// Image data for the shuffle grid
 const squareData = [
   {
     id: 1,
@@ -79,7 +78,6 @@ const squareData = [
   },
 ]
 
-// Shuffle array function
 const shuffle = (array: typeof squareData) => {
   let currentIndex = array.length,
     randomIndex
@@ -93,13 +91,11 @@ const shuffle = (array: typeof squareData) => {
   return array
 }
 
-// EnhancedShuffleGrid component
 const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
   const timeoutRef = useRef<NodeJS.Timeout | null>(null)
   const [squares, setSquares] = useState<React.ReactNode[]>([])
   const [isHovering, setIsHovering] = useState(false)
 
-  // Generate squares with animations
   const generateSquares = () => {
     return shuffle([...squareData])
       .slice(0, 9)
@@ -129,7 +125,6 @@ const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
           }}
           className="relative w-full h-full overflow-hidden rounded-lg"
         >
-          {/* Image with filter effect */}
           <motion.div
             className="absolute inset-0 h-full w-full"
             style={{
@@ -143,7 +138,6 @@ const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
             transition={{ duration: 0.4 }}
           />
 
-          {/* Gradient overlay */}
           <motion.div
             initial={{ opacity: 0 }}
             whileHover={{ opacity: 1 }}
@@ -166,7 +160,6 @@ const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
             </div>
           </motion.div>
 
-          {/* Decorative corner accent */}
           <motion.div
             className="absolute right-0 top-0 h-12 w-12 origin-top-right"
             initial={{ opacity: 0, scale: 0 }}
@@ -180,7 +173,6 @@ const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
       ))
   }
 
-  // Initialize and handle shuffling
   useEffect(() => {
     setSquares(generateSquares())
     shuffleSquares()
@@ -198,7 +190,6 @@ const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
       return
     }
 
-    // Create a fade out/in effect
     const fadeOutTimeout = setTimeout(() => {
       setSquares([])
 
@@ -226,10 +217,8 @@ const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
       onHoverStart={() => setIsHovering(true)}
       onHoverEnd={() => setIsHovering(false)}
     >
-      {/* Glass effect overlay */}
       <div className="absolute inset-0 z-10 rounded-2xl"></div>
 
-      {/* Grid with perspective effect */}
       <div
         className="grid h-full grid-cols-3 grid-rows-3 gap-3 p-3"
         style={{
@@ -250,7 +239,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
   const isDark = theme === "dark"
   const containerRef = useRef<HTMLDivElement>(null)
 
-  // Track mouse position for spotlight effect
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       if (!containerRef.current) return
@@ -265,7 +253,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
     return () => window.removeEventListener("mousemove", handleMouseMove)
   }, [])
 
-  // Animate text cycling
   useEffect(() => {
     const interval = setInterval(() => {
       setTextIndex((prev) => (prev + 1) % textVariants.length)
@@ -285,7 +272,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
           : "bg-gradient-to-b from-zinc-100 via-zinc-100 to-white"
       } transition-colors duration-500`}
     >
-      {/* Spotlight effect that follows cursor */}
       <div
         className="pointer-events-none absolute inset-0 z-10 opacity-30"
         style={{
@@ -295,7 +281,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
         }}
       />
 
-      {/* Decorative elements */}
       <div
         className={`absolute -left-20 top-20 h-[500px] w-[500px] rounded-full ${
           isDark
@@ -311,13 +296,11 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
         } blur-3xl`}
       ></div>
 
-      {/* Grid pattern overlay */}
       <div className="absolute inset-0 z-0 bg-center opacity-20"></div>
 
       <div className="relative z-10 flex min-h-[calc(100vh-80px)] w-full items-center justify-center px-8 py-24 pt-28">
         <div className="grid max-w-7xl gap-16 lg:grid-cols-2">
           <div className="relative max-w-xl">
-            {/* Animated badge */}
             <motion.div
               initial={{ opacity: 0, y: 20, scale: 0.8 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -353,7 +336,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
               </span>
             </motion.div>
 
-            {/* Main heading with animated text */}
             <div className="mb-6">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -394,7 +376,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
               </motion.h2>
             </div>
 
-            {/* Description with animated underline */}
             <div className="relative">
               <motion.p
                 initial={{ opacity: 0, y: 20 }}
@@ -419,7 +400,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
               />
             </div>
 
-            {/* Buttons with hover effects */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -508,7 +488,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
             </motion.div>
           </div>
 
-          {/* Enhanced grid with 3D effect */}
           <div className="relative hidden lg:block">
             <motion.div
               initial={{ opacity: 0, scale: 0.9, rotateY: -10 }}
@@ -523,7 +502,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
               <EnhancedShuffleGrid isDark={isDark} />
             </motion.div>
 
-            {/* Decorative elements */}
             <div
               className={`absolute -bottom-10 -right-10 z-0 h-80 w-80 rounded-full border ${
                 isDark ? "border-rose-500/20" : "border-rose-500/10"
@@ -535,7 +513,6 @@ function ShuffleHero({ theme = "dark", onThemeChange }: ShuffleHeroProps) {
               }`}
             ></div>
 
-            {/* Glow effect */}
             <div
               className={`absolute -bottom-20 -right-20 z-0 h-60 w-60 rounded-full ${
                 isDark ? "bg-rose-500/10" : "bg-rose-500/5"

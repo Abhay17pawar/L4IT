@@ -11,7 +11,6 @@ export interface ShuffleHeroProps {
   onThemeChange?: (theme: "light" | "dark") => void
 }
 
-// Image data for the shuffle grid
 const squareData = [
   {
     id: 1,
