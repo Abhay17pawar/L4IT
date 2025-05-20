@@ -8,10 +8,10 @@ import { ArrowRight, ChevronRight, Shield, Server, Brain, HeartIcon as HeartPlus
 
 interface ShuffleHeroProps {
   theme: "light" | "dark"
-  onThemeChange: (theme: "light" | "dark") => void
+  onThemeChange?: (theme: "light" | "dark") => void
 }
 
-const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark" }) => {
+const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark", onThemeChange }) => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
   const containerRef = useRef<HTMLDivElement>(null)
   const { scrollYProgress } = useScroll({
@@ -55,7 +55,7 @@ const ShuffleHero: React.FC<ShuffleHeroProps> = ({ theme = "dark" }) => {
       setTextIndex((prev) => (prev + 1) % textVariants.length)
     }, 2000)
     return () => clearInterval(interval)
-}, [textVariants.length]);
+  }, [textVariants.length])
 
   return (
     <motion.section
@@ -500,20 +500,20 @@ const generateSquares = (isDark: boolean) => {
 }
 
 const EnhancedShuffleGrid = ({ isDark }: { isDark: boolean }) => {
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null); // Use a more specific type
-  const [squares, setSquares] = useState<React.ReactNode[]>([]);
-  const [isHovering, setIsHovering] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null) // Use a more specific type
+  const [squares, setSquares] = useState<React.ReactNode[]>([])
+  const [isHovering, setIsHovering] = useState(false)
 
   useEffect(() => {
-    setSquares(generateSquares(isDark));
-    shuffleSquares();
+    setSquares(generateSquares(isDark))
+    shuffleSquares()
 
     return () => {
       if (timeoutRef.current) {
-        clearTimeout(timeoutRef.current);
+        clearTimeout(timeoutRef.current)
       }
-    };
-  }, [isDark]);
+    }
+  }, [isDark])
 
   const shuffleSquares = () => {
     if (isHovering) {
